@@ -16,6 +16,6 @@
 
 3.  Screenshots of your draft product
 
-    ![](map_draft.png)
+    ![](app_draft.PNG)
 
 ![](draft.jpg){width="849"}
