@@ -1,12 +1,5 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
+Sys.setlocale("LC_ALL", "en_US.UTF-8")
 library(shiny)
 source("overview.R")
 year_var <- unique(overview_map$Year)

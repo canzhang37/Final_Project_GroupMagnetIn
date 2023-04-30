@@ -18,13 +18,18 @@ library(tools)
 library(stringr)
 library(viridis)
 
-mortality <- read_csv("data/HIV deaths.csv")
-overview <- read_csv("data/HIV diagnoses.csv")
-m_1 <- read_csv("data/m_1.csv")
-m_2 <- read_csv("data/m_2.csv")
-m_3 <- read_csv("data/m_3.csv")
-f_1 <- read_csv("data/f_1.csv")
-f_2 <- read_csv("data/f_2.csv")
+clean <- function(df) {
+  colnames(df) <- make.names(colnames(df), unique = TRUE, allow_ = TRUE)
+  return(df)
+}
+
+mortality <- read_csv("HIV deaths.csv")
+overview <- read_csv("HIV diagnoses.csv")
+m_1 <- read_csv("m_1.csv")
+m_2 <- read_csv("m_2.csv")
+m_3 <- read_csv("m_3.csv")
+f_1 <- read_csv("f_1.csv")
+f_2 <- read_csv("f_2.csv")
 
 HIV_full <- rbind(cbind(m_1, Gender = "Male"),
                   cbind(m_2, Gender = "Male"),
