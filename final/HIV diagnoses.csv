@@ -1,4 +1,4 @@
-Indicator,Year,Geography,FIPS,Cases,Rate per 100000
+Indicator,Year,Geography,FIPS,Cases,Rate.per.100000
 HIV diagnoses,2008,Alabama,1,701,18.1
 HIV diagnoses,2009,Alabama,1,686,17.6
 HIV diagnoses,2010,Alabama,1,685,17.2

@@ -1,4 +1,3 @@
-
 Sys.setlocale("LC_ALL", "en_US.UTF-8")
 library(shiny)
 source("overview.R")
@@ -79,11 +78,11 @@ ui <- fluidPage(
                    selectInput("geography", "Geography:",
                                choices = c("ALL", unique(HIV_full$Geography))),
                    selectInput("agegroup", "Age Group:",
-                               choices = c("ALL", unique(HIV_full$`Age Group`))),
+                               choices = c("ALL", unique(HIV_full$Age.Group))),
                    selectInput("gender", "Gender:",
                                choices = c("ALL", unique(HIV_full$Gender))),
-                   selectInput("race", "Race/Ethnicity:",
-                               choices = c("ALL", unique(HIV_full$`Race/Ethnicity`))),
+                   selectInput("race", "Race:",
+                               choices = c("ALL", unique(HIV_full$Race))),
                    sliderInput("year_range", "Select Year Range:",
                                min = min(HIV_full$Year), max = max(HIV_full$Year),
                                value = c(min(HIV_full$Year), max(HIV_full$Year)), step = 1)
@@ -113,9 +112,9 @@ ui <- fluidPage(
           selectInput("year_d", "Year:", choices = c("ALL", unique(HIV_full$Year))),
           selectInput("geography_d", "Geography:", choices = c("ALL", unique(HIV_full$Geography))),
           selectInput("gender_d", "Gender:", choices = c("ALL", unique(HIV_full$Gender))),
-          selectInput("race_ethnicity_d", "Race/Ethnicity:", choices = c("ALL", unique(HIV_full$`Race/Ethnicity`))),
-          selectInput("age_group_d", "Age Group:", choices = c("ALL", unique(HIV_full$`Age Group`))),
-          selectInput("transmission_category_d", "Transmission Category:", choices = c("ALL", unique(HIV_full$`Transmission Category`))),
+          selectInput("race_ethnicity_d", "Race:", choices = c("ALL", unique(HIV_full$Race))),
+          selectInput("age_group_d", "Age Group:", choices = c("ALL", unique(HIV_full$Age.Group))),
+          selectInput("transmission_category_d", "Transmission Category:", choices = c("ALL", unique(HIV_full$Transmission.Category))),
           downloadButton("download_data", "Download Data")
       ),
       mainPanel(
@@ -154,20 +153,19 @@ server <- function(input, output) {
   })  
 
   
-  colorize <- function(value) {
-    pal <- (colorRampPalette(brewer.pal(3,  "Blues"))(100))
-    median_val <- median(overview_table(source_overview(), input$year)$`Rate per 100000`)
-    scale <- max(abs(overview_table(source_overview(), input$year)$`Rate per 100000` - median_val))
-    pal[findInterval(value, c(seq(median_val - scale, median_val, length.out = 50), seq(median_val, median_val + scale, length.out = 50)))]
-  }
   
   output$OverviewTable <- renderDT({
+    median_val <- median(overview_table(source_overview(), input$year)$Rate.per.100000)
+    scale <- max(abs(overview_table(source_overview(), input$year)$Rate.per.100000 - median_val))
+    pal <- colorRampPalette(brewer.pal(3,  "Blues"))(100)
+    colors <- pal[findInterval(overview_table(source_overview(), input$year)$Rate.per.100000, c(seq(median_val - scale, median_val, length.out = 50), seq(median_val, median_val + scale, length.out = 50)))]
+    
     datatable(overview_table(source_overview(), input$year),
               options = list(pageLength = 10),
               rownames = FALSE) %>%
-      formatStyle("Rate per 100000",
-                  backgroundColor = styleEqual(levels = overview_table(source_overview(), input$year)$`Rate per 100000`,
-                                               values = sapply(overview_table(source_overview(), input$year)$`Rate per 100000`, colorize)),
+      formatStyle("Rate.per.100000",
+                  backgroundColor = styleEqual(levels = overview_table(source_overview(), input$year)$Rate.per.100000,
+                                               values = colors),
                   backgroundSize = "98% 88%",
                   backgroundRepeat = "no-repeat",
                   backgroundPosition = "center")
@@ -191,10 +189,10 @@ server <- function(input, output) {
       filtered <- filtered %>% filter(Gender == input$gender)
     }
     if (input$race != "ALL") {
-      filtered <- filtered %>% filter(`Race/Ethnicity` == input$race)
+      filtered <- filtered %>% filter(Race == input$race)
     }
     if (input$agegroup != "ALL") {
-      filtered <- filtered %>% filter(`Age Group` == input$agegroup)
+      filtered <- filtered %>% filter(Age.Group == input$agegroup)
     }
     filtered <- filtered %>% filter(Year >= input$year_range[1] & Year <= input$year_range[2])
     filtered
@@ -234,13 +232,13 @@ server <- function(input, output) {
       filtered <- filtered %>% filter(Gender == input$gender_d)
     }
     if (input$race_ethnicity_d != "ALL") {
-      filtered <- filtered %>% filter(`Race/Ethnicity` == input$race_ethnicity_d)
+      filtered <- filtered %>% filter(Race == input$race_ethnicity_d)
     }
     if (input$age_group_d != "ALL") {
-      filtered <- filtered %>% filter(`Age Group` == input$age_group_d)
+      filtered <- filtered %>% filter(Age.Group == input$age_group_d)
     }
     if (input$transmission_category_d != "ALL") {
-      filtered <- filtered %>% filter(`Transmission Category` == input$transmission_category_d)
+      filtered <- filtered %>% filter(Transmission.Category == input$transmission_category_d)
     }
     filtered
   })

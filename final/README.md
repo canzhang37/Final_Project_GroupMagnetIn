@@ -12,7 +12,7 @@ b)  Product purpose:
 
 c)  Availability
 
-    Our Shiny app can be accessed contacting jiayi007@umn.edu or zhan8639@umn.edu 
+    Our Shiny app can be accessed contacting [jiayi007\@umn.edu](mailto:jiayi007@umn.edu){.email} or [zhan8639\@umn.edu](mailto:zhan8639@umn.edu){.email}
 
 d)  Data source(s):
 
