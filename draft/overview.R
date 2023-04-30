@@ -6,7 +6,7 @@ library(sf)
 library(tidyverse)
 library(readr)
 
-overview <- read_csv("C:/Users/Oemx/Desktop/2023SPRING/PUBH7462/Final Project/HIV diagnoses.csv")
+overview <- read_csv("HIV diagnoses.csv")
 overview$Geography <- tolower(overview$Geography)
 # Get the geographic data for the United States at the state level
 us_states <- map_data("state")
