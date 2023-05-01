@@ -32,7 +32,6 @@ f_1 <- read.csv("f_1.csv", fileEncoding = "UTF-8")
 f_2 <- read.csv("f_2.csv", fileEncoding = "UTF-8")
 
 
-
 HIV_full <- rbind(cbind(m_1, Gender = "Male"),
                   cbind(m_2, Gender = "Male"),
                   cbind(m_3, Gender = "Male"),
@@ -45,14 +44,6 @@ HIV_full <- na.omit(HIV_full)
 HIV_full$Geography <- gsub("\\^$", "", HIV_full$Geography)
 HIV_full <- subset(HIV_full, select = -c(Rate.per.100000))
 HIV_full <- HIV_full %>% select(1:4, Gender, 5:ncol(HIV_full))
-# HIV_full$Race <- gsub("Hispanic/Latino", "Hispanic_Latino", HIV_full$Race)
-# HIV_full$Transmission.Category <- gsub("Male-to-male sexual contact", "Male_to_male sexual contact", HIV_full$Transmission.Category)
-# HIV_full$Transmission.Category <- gsub("Male-to-male sexual contact and injection drug use", 
-#                                        "Male_to_male sexual contact and injection drug use", HIV_full$Transmission.Category)
-
-# mortality <- clean(mortality)
-# overview <- clean(overview)
-# HIV_full <- clean(HIV_full)
 
 overview$Geography <- tolower(overview$Geography)
 mortality$Geography <-tolower(mortality$Geography)
@@ -76,8 +67,6 @@ mortality_map <-
 
 overview_map$Rate.per.100000 <- as.numeric(overview_map$Rate.per.100000)
 mortality_map$Rate.per.100000 <- as.numeric(mortality_map$Rate.per.100000)
-# overview_map$Cases <- as.double(overview_map$Cases)
-# mortality_map$Cases <- as.double(mortality_map$Cases)
 
 showtext_auto()
 font_add_google("Montserrat", family = "my_font")
@@ -86,7 +75,6 @@ font_add_google('Abril Fatface', family ='my_font_title')
 # Plot the map
 create_overview <- function(data, year) {
   my_colors <- brewer.pal(n = 9, name = "Blues")
-  
   overview.plot <- 
     data %>%
     filter(Year == year) %>%
@@ -103,11 +91,6 @@ create_overview <- function(data, year) {
   ggplotly(overview.plot, tooltip = "text") %>%
     layout(colorway = my_colors)
 }
-
-
-create_overview(overview_map,2008)
-create_overview(overview_map,2018)
-
 
 overview_barplot <- function(data, year) {
   overview.bar <- data %>%
@@ -133,10 +116,6 @@ overview_barplot <- function(data, year) {
 }
 
 
-
-overview_barplot(overview_map,2008)
-overview_barplot(overview_map,2018)
-
 overview_table <- function(data, year) {
   data %>%
     filter(Year == year) %>%
@@ -146,9 +125,6 @@ overview_table <- function(data, year) {
     arrange(desc(Rate.per.100000)) %>%
     rename(Region = region)
 }
-overview_table(overview_map,2018)
-
-geom_polygon()
 
 
 overview_title <- function(data,year){
@@ -279,4 +255,3 @@ overview_pie4 <- function(data) {
            paper_bgcolor = "#f6f6f6")
 }
 
-overview_pie4(HIV_full)

@@ -129,10 +129,6 @@ ui <- fluidPage(
 )
 
 
-
-  
-
-
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   source_overview <- reactive({
@@ -177,8 +173,7 @@ server <- function(input, output) {
   
   
   
-  # Trend
-  
+# Trend
   filtered_data <- reactive({
     filtered <- HIV_full
     if (input$geography != "ALL") {
