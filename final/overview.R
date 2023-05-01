@@ -45,6 +45,10 @@ HIV_full <- na.omit(HIV_full)
 HIV_full$Geography <- gsub("\\^$", "", HIV_full$Geography)
 HIV_full <- subset(HIV_full, select = -c(Rate.per.100000))
 HIV_full <- HIV_full %>% select(1:4, Gender, 5:ncol(HIV_full))
+# HIV_full$Race <- gsub("Hispanic/Latino", "Hispanic_Latino", HIV_full$Race)
+# HIV_full$Transmission.Category <- gsub("Male-to-male sexual contact", "Male_to_male sexual contact", HIV_full$Transmission.Category)
+# HIV_full$Transmission.Category <- gsub("Male-to-male sexual contact and injection drug use", 
+#                                        "Male_to_male sexual contact and injection drug use", HIV_full$Transmission.Category)
 
 # mortality <- clean(mortality)
 # overview <- clean(overview)

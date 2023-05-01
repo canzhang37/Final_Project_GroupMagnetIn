@@ -1,4 +1,3 @@
-Sys.setlocale("LC_ALL", "en_US.UTF-8")
 library(shiny)
 source("overview.R")
 year_var <- unique(overview_map$Year)
